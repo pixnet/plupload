@@ -331,6 +331,8 @@
 				with a special classes
 				TODO: needs to be revised as things will change */
 				browseButton = document.getElementById(up.settings.browse_button);
+                var extra_browse_button_ids = up.settings.extra_browse_buttons.split(/,/);
+
 				if (browseButton) {				
 					var hoverClass = up.settings.browse_button_hover,
 						activeClass = up.settings.browse_button_active,
@@ -354,15 +356,26 @@
 						}, up.id);
 					}
 
+                    var clickEvent = function(e) {
+                        var input = document.getElementById(up.id + '_html5');
+                        if (input && !input.disabled) { // for some reason FF (up to 8.0.1 so far) lets to click disabled input[type=file]
+                            input.click();
+                        }
+                        e.preventDefault();
+                    };
+
 					// Route click event to the input[type=file] element for supporting browsers
 					if (up.features.triggerDialog) {
-						plupload.addEvent(browseButton, 'click', function(e) {
-							var input = document.getElementById(up.id + '_html5');
-							if (input && !input.disabled) { // for some reason FF (up to 8.0.1 so far) lets to click disabled input[type=file]
-								input.click();
-							}
-							e.preventDefault();
-						}, up.id); 
+
+                        plupload.addEvent(browseButton, 'click', clickEvent, up.id);
+
+                        for (var i in extra_browse_button_ids) {
+                            var extraBrowseButton = document.getElementById(extra_browse_button_ids[i]);
+
+                            if (null != extraBrowseButton) {
+                                plupload.addEvent(extraBrowseButton, 'click', clickEvent, up.id);
+                            }
+                        }
 					}
 				}
 			});
