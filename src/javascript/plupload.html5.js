@@ -331,7 +331,6 @@
 				with a special classes
 				TODO: needs to be revised as things will change */
 				browseButton = document.getElementById(up.settings.browse_button);
-                var extra_browse_button_ids = up.settings.extra_browse_buttons.split(/,/);
 
 				if (browseButton) {				
 					var hoverClass = up.settings.browse_button_hover,
@@ -366,16 +365,7 @@
 
 					// Route click event to the input[type=file] element for supporting browsers
 					if (up.features.triggerDialog) {
-
                         plupload.addEvent(browseButton, 'click', clickEvent, up.id);
-
-                        for (var i in extra_browse_button_ids) {
-                            var extraBrowseButton = document.getElementById(extra_browse_button_ids[i]);
-
-                            if (null != extraBrowseButton) {
-                                plupload.addEvent(extraBrowseButton, 'click', clickEvent, up.id);
-                            }
-                        }
 					}
 				}
 			});
