@@ -21,7 +21,7 @@
 /*global window:false, document:false, plupload:false, jQuery:false */
 
 (function(window, document, plupload, $, undef) {
-	
+$.fn._button = $.fn.button;
 var uploaders = {};	
 	
 function _(str) {
@@ -147,16 +147,16 @@ $.widget("ui.plupload", {
 		this.stop_button = $('.plupload_stop', this.container).attr('id', id + '_stop');
 		
 		if ($.ui.button) {
-			this.browse_button.button({
+			this.browse_button._button({
 				icons: { primary: 'ui-icon-circle-plus' }
 			});
 			
-			this.start_button.button({
+			this.start_button._button({
 				icons: { primary: 'ui-icon-circle-arrow-e' },
 				disabled: true
 			});
 			
-			this.stop_button.button({
+			this.stop_button._button({
 				icons: { primary: 'ui-icon-circle-close' }
 			});
 		}
@@ -191,16 +191,16 @@ $.widget("ui.plupload", {
 		uploader.bind('Init', function(up, res) {	
 			// all buttons are optional, so they can be disabled and hidden
 			if (!self.options.buttons.browse) {
-				self.browse_button.button('disable').hide();
+				self.browse_button._button('disable').hide();
 				up.disableBrowse(true);
 			}
 			
 			if (!self.options.buttons.start) {
-				self.start_button.button('disable').hide();
+				self.start_button._button('disable').hide();
 			}
 			
 			if (!self.options.buttons.stop) {
-				self.stop_button.button('disable').hide();
+				self.stop_button._button('disable').hide();
 			}
 				
 			if (!self.options.unique_names && self.options.rename) {
@@ -214,7 +214,7 @@ $.widget("ui.plupload", {
 			self.container.attr('title', _('Using runtime: ') + (self.runtime = res.runtime));
 
 			self.start_button.click(function(e) {
-				if (!$(this).button('option', 'disabled')) {
+				if (!$(this)._button('option', 'disabled')) {
 					self.start();
 				}
 				e.preventDefault();
@@ -369,23 +369,23 @@ $.widget("ui.plupload", {
 			value = $.extend(self.options.buttons, value);
 			
 			if (!value.browse) {
-				self.browse_button.button('disable').hide();
+				self.browse_button._button('disable').hide();
 				up.disableBrowse(true);
 			} else {
-				self.browse_button.button('enable').show();
+				self.browse_button._button('enable').show();
 				up.disableBrowse(false);
 			}
 			
 			if (!value.start) {
-				self.start_button.button('disable').hide();
+				self.start_button._button('disable').hide();
 			} else {
-				self.start_button.button('enable').show();
+				self.start_button._button('enable').show();
 			}
 			
 			if (!value.stop) {
-				self.stop_button.button('disable').hide();
+				self.stop_button._button('disable').hide();
 			} else {
-				self.start_button.button('enable').show();	
+				self.start_button._button('enable').show();	
 			}
 		}
 		
@@ -439,7 +439,7 @@ $.widget("ui.plupload", {
 						
 		if (up.state === plupload.STARTED) {
 							
-			$(self.start_button).button('disable');
+			$(self.start_button)._button('disable');
 								
 			$([])
 				.add(self.stop_button)
@@ -460,7 +460,7 @@ $.widget("ui.plupload", {
 					.addClass('plupload_hidden');
 			
 			if (self.options.multiple_queues) {
-				$(self.start_button).button('enable');
+				$(self.start_button)._button('enable');
 						
 				$('.plupload_header_content', self.element).removeClass('plupload_header_content_bw');
 			}
@@ -593,9 +593,9 @@ $.widget("ui.plupload", {
 
 
 		if (up.files.length === (up.total.uploaded + up.total.failed)) {
-			self.start_button.button('disable');
+			self.start_button._button('disable');
 		} else {
-			self.start_button.button('enable');
+			self.start_button._button('enable');
 		}
 
 
@@ -724,7 +724,7 @@ $.widget("ui.plupload", {
 		// destroy buttons
 		if ($.ui.button) {
 			$('.plupload_add, .plupload_start, .plupload_stop', this.container)
-				.button('destroy');
+				._button('destroy');
 		}
 		
 		// destroy progressbar
